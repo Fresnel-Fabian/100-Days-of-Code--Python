@@ -10,7 +10,7 @@ class User:
         self.following += 1
     
     def __str__(self):
-        return f"user_id: {self.user_id}\nuser_name: {self.user_name}"
+        return (f"user_id: {self.user_id}\nuser_name: {self.user_name}")
 
 
 user1 = User("01", "Fresnel")
