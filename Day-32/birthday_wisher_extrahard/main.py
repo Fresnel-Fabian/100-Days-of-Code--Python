@@ -3,9 +3,11 @@ import pandas as pd
 import smtplib
 import random
 import datetime as dt
+import os
 
+
+PASSWORD = os.environ['PASSWORD']
 MY_EMAIL = "fresnelfabian@gmail.com"
-PASSWORD = "tkhvnitfycxxeiij"
 PLACEHOLDER = "[NAME]"
 # 1. Update the birthdays.csv
 birthday_list = pd.read_csv("birthdays.csv")

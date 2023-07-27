@@ -1,9 +1,9 @@
 import smtplib
 import datetime as dt
+import os
 
-
+PASSWORD = os.environ['PASSWORD']
 MY_EMAIL = "fresnelfabian@gmail.com"
-PASSWORD = "tkhvnitfycxxeiij"
 
 with smtplib.SMTP("smtp.gmail.com") as connection:
     connection.starttls()
