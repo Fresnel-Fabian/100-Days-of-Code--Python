@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -5,7 +6,7 @@ from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 
 ACCOUNT_EMAIL = "frenelfabian@gmail.com"
-ACCOUNT_PASSWORD = "#KkW5M$3L?xxU=:"
+ACCOUNT_PASSWORD = os.environ["linkedin_password"]
 PHONE = "9072622722"
 
 driver = webdriver.Chrome()
