@@ -1,6 +1,6 @@
 from instafollowers import InstaFollowers
-USERNAME = "fresnelprince@gmail.com"
-PASSWORD = "Fresnel@2001"
+USERNAME = "INSTAGRAM USERNAME"
+PASSWORD = "INSTAGRAM PASSWORD"
 SIMILAR_ACCOUNT = "chefsteps"
 
 bot = InstaFollowers()
