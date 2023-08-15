@@ -1,8 +1,9 @@
 from internetspeedtwitterbot import InternetSpeedTwitterBot
 
-EMAIL = "fresnelfabian@gmail.com"
-PASSWORD = "Fresnel@18"
-USERNAME = "FresnelFabian_"
+EMAIL = "TWITTER EMAIL"
+PASSWORD = "TWITTER PASSWORD"
+# Due to multiple login attempt had to use username
+USERNAME = "TWITTER USERNAME"
 PROMISED_DOWN = 10
 PROMISED_UP = 10
 i = InternetSpeedTwitterBot()
