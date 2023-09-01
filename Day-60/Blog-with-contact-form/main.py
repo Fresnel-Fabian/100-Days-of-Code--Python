@@ -3,7 +3,7 @@ import requests
 import smtplib
 
 
-MY_PASSWORD = ""
+MY_PASSWORD = " "
 MY_EMAIL = "fresnelfabian@gmail.com"
 
 # USE YOUR OWN npoint LINK! ADD AN IMAGE URL FOR YOUR POST. 👇
