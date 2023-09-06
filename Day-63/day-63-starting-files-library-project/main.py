@@ -17,7 +17,7 @@ This will install the packages from requirements.txt for this project.
 app = Flask(__name__)
 # Create database
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///books.db"
-# Create teh extension
+# Create the extension
 db = SQLAlchemy()
 # initialise the app with the extension
 db.init_app(app)
@@ -45,9 +45,9 @@ def add():
         data = request.form
         # Create record
         new_book = Book(
-            title=request.form["title"],
-            author=request.form["author"],
-            rating=request.form["rating"]
+            title=data["title"],
+            author=data["author"],
+            rating=data["rating"],
         )
         print(dict(data))
         db.session.add(new_book)
@@ -55,14 +55,25 @@ def add():
         return redirect(url_for("home"))
     return render_template("add.html")
 
-@app.route("/edit/<number:int>", methods=["GET", "POST"])
-def edit(id):
+@app.route("/edit", methods=["GET", "POST"])
+def edit():
     if request.method == "POST":
-        book_to_update = db.session.execute(db.select(Book).where(Book.id == id)).scalar()
+        book_id = request.form["id"]
+        book_to_update = db.get_or_404(Book, book_id)
         book_to_update.rating = request.form["rating"]
         db.session.commit()
         return redirect(url_for('home'))
-    return render_template("edit.html")
+    book_id = request.args.get('id')
+    book = db.get_or_404(Book, book_id)
+    return render_template("edit.html", book=book)
+@app.route("/delete/<int:id>")
+def delete(id):
+    print(id)
+    book_to_delete = db.session.execute(db.select(Book).where(Book.id == id)).scalar()
+    db.session.delete(book_to_delete)
+    db.session.commit()
+    return redirect(url_for('home'))
+
 if __name__ == "__main__":
     app.run(debug=True)
 
