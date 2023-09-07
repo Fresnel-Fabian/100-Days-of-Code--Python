@@ -83,6 +83,7 @@ def home():
 
 @app.route("/update")
 def update():
-    pass
+    return render_template("update.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
