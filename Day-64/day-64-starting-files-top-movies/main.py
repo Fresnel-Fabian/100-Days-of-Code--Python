@@ -42,6 +42,7 @@ class Movie(db.Model):
     review = db.Column(db.String(250), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
 
+
 # Create table in db
 with app.app_context():
     db.create_all()
@@ -81,9 +82,62 @@ def home():
     all_movies = result.scalars()
     return render_template("index.html", movies=all_movies)
 
-@app.route("/update")
-def update():
-    return render_template("update.html")
+# Flask from to edit rating and review
+class RateMovieForm(FlaskForm):
+    rating = StringField("Your Rating Out of 10", validators=[DataRequired()])
+    review = StringField("Your Review", validators=[DataRequired()])
+    submit = SubmitField("Done")
+
+@app.route("/edit", methods=["GET", "POST"])
+def edit():
+    edit_form = RateMovieForm()
+    if edit_form.validate_on_submit():
+        rating = edit_form.rating.data
+        review = edit_form.review.data
+        print(rating, review)
+        movie_id = request.args.get('id')
+        movie_to_updata = db.get_or_404(Movie, movie_id)
+        movie_to_updata.rating = rating
+        movie_to_updata.review = review
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("edit.html", form=edit_form)
+
+# Flask form to add movie
+class AddMovie(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    year = StringField("Year", validators=[DataRequired()])
+    description = StringField("Description", validators=[DataRequired()])
+    rating = StringField("Rating", validators=[DataRequired()])
+    ranking = StringField("Ranking", validators=[DataRequired()])
+    review = StringField("Review", validators=[DataRequired()])
+    img_url = StringField("Image URL", validators=[DataRequired()])
+    submit = SubmitField("Done")
+@app.route("/add", methods=["GET", "POST"])
+def add():
+    add_form = AddMovie()
+    if add_form.validate_on_submit():
+        new_movie = Movie(
+            title=add_form.title.data,
+            year=add_form.year.data,
+            description=add_form.description.data,
+            rating=add_form.rating.data,
+            ranking=add_form.ranking.data,
+            review=add_form.review.data,
+            img_url=add_form.img_url.data,
+        )
+        db.session.add(new_movie)
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("add.html", form=add_form)
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    # movie_id  = request.args.get('id')
+    movie_to_delete=db.get_or_404(Movie, id)
+    db.session.delete(movie_to_delete)
+    db.session.commit()
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     app.run(debug=True)
