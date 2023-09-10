@@ -10,7 +10,7 @@ import requests
 # TMDB bearer token
 headers = {
             "accept": "application/json",
-            "Authorization": "Bearer token"
+            "Authorization": "Bearer "
         }
 # Create app
 app = Flask(__name__)
