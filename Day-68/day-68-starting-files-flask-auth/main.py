@@ -11,6 +11,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy()
 db.init_app(app)
 
+# initialize flask login
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 # CREATE TABLE IN DB
 class User(db.Model):
@@ -28,6 +31,10 @@ with app.app_context():
 def home():
     return render_template("index.html")
 
+# User loader callback
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -51,8 +58,10 @@ def register():
     return render_template("register.html")
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        login_user()
     return render_template("login.html")
 
 
