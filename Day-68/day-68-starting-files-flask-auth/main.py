@@ -11,12 +11,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy()
 db.init_app(app)
 
-# initialize flask login
+# Configure Flask-Login's Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# CREATE TABLE IN DB
-class User(db.Model):
+# Create a user loader callback
+@login_manager.user_loader
+def load_user(user_id):
+    return db.get_or_404(User, user_id)
+
+# CREATE TABLE IN DB with the UserMixin
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
@@ -31,10 +36,7 @@ with app.app_context():
 def home():
     return render_template("index.html")
 
-# User loader callback
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
@@ -53,7 +55,10 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for("secrets", email=new_user.email))
+
+        # Login and authenticate user after adding details to database.
+        login_user(new_user)
+        return redirect(url_for("secrets"))
     
     return render_template("register.html")
 
@@ -61,22 +66,39 @@ def register():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        login_user()
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Find user by email entered
+        result = db.session.execute(db.select(User).where(User.email == email))
+        user = result.scalar()
+
+        # Check stored password hash against entered password hashed.
+        if check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('secrets'))
+        
     return render_template("login.html")
 
 
-@app.route('/secrets/<string:email>')
-def secrets(email):
-    user = db.session.execute(db.select(User).where(User.email == email)).scalar()
-    return render_template("secrets.html", user=user)
+# Only logged-in users can access the route
+@app.route('/secrets')
+@login_required
+def secrets():
+    print(current_user.name)
+    # user = db.session.execute(db.select(User).where(User.email == email)).scalar()
+    return render_template("secrets.html", name=current_user.name)
 
 
 @app.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('home'))
 
 
+# Only logged-in users can download the pdf
 @app.route('/download')
+@login_required
 def download():
     return send_from_directory(
         'static', path="files/cheat_sheet.pdf"
