@@ -83,7 +83,7 @@ def login():
             return redirect(url_for('login'))
 
         # Check stored password hash against entered password hashed.
-        elif check_password_hash(user.password, password):
+        elif not check_password_hash(user.password, password):
             flash("Password incorrect, please try again.")
             return redirect(url_for('login'))
             
