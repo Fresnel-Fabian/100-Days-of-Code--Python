@@ -55,7 +55,7 @@ class BlogPost(db.Model):
     body = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
     # This will act like a List of Comment objects attached to each BlogPost.
-    # The "blog" refers to the blog property in the Comment class
+    # The "parent_post" refers to the blog property in the Comment class
     comments = relationship("Comment", back_populates="parent_post")
 
 
@@ -83,9 +83,9 @@ class Comment(db.Model):
     # Create reference to the User object, the "commments" refers to the comments property in the User class.
     comment_author = relationship("User", back_populates="comments")
 
-    # Create Foreign Key, "blog_posts.id" the users refers to the tablename of BlogPost.
+    # Create Foreign Key, "blog_posts.id" the blog_posts refers to the tablename of BlogPost.
     post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
-    # Create reference to the User object, the "commments" refers to the comments property in the User class.
+    # Create reference to the BlogPost object, the "commments" refers to the comments property in the BlogPost class.
     parent_post = relationship("BlogPost", back_populates="comments")
 
 

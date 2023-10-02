@@ -8,7 +8,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Angela's Blog</title>
+    <title>Fresnel's Blog</title>
     {% block styles %}
     <!-- Load Bootstrap-Flask CSS here -->
     {{ bootstrap.load_css() }}
@@ -44,7 +44,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/">Start Bootstrap</a>
+        <a class="navbar-brand" href="/">Fresnel's Blog</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -72,23 +72,23 @@
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
                 href="{{ url_for('login') }}"
-                >Login</a
-              >
+                >Login
+              </a>
             </li>
             <li class="nav-item">
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
                 href="{{ url_for('register') }}"
-                >Register</a
-              >
-            {% else: %}
+                >Register
+              </a>
             </li>
+            {% else: %}
             <li class="nav-item">
               <a
                 class="nav-link px-lg-3 py-3 py-lg-4"
                 href="{{ url_for('logout') }}"
-                >Log Out</a
-              >
+                >Log Out
+              </a>
             </li>
             {% endif %}
             <li class="nav-item">
