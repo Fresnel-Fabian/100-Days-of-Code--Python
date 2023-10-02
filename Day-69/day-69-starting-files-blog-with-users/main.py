@@ -258,12 +258,12 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_all_posts'))
 
-
+# About
 @app.route("/about")
 def about():
     return render_template("about.html", current_user=current_user)
 
-
+# Contact
 @app.route("/contact")
 def contact():
     return render_template("contact.html", current_user=current_user)
