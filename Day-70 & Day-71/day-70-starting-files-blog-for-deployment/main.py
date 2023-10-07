@@ -284,6 +284,7 @@ def send_email(name, email, phone, message):
         connection.starttls()
         connection.login(MAIL_ADDRESS, MAIL_APP_PW)
         connection.sendmail(MAIL_ADDRESS, MAIL_APP_PW, email_message)
+print("hello world!")
 
 
 if __name__ == "__main__":
