@@ -269,6 +269,7 @@ def contact():
 MAIL_ADDRESS = os.environ.get("EMAIL_KEY")
 MAIL_APP_PW = os.environ.get("PASSWORD_KEY")
 
+# contact route takes contact details from user and send it to host by email
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
