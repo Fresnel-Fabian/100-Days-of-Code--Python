@@ -139,7 +139,7 @@ def register():
         return redirect(url_for("get_all_posts"))
     return render_template("register.html", form=form, current_user=current_user)
 
-
+# login
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -162,13 +162,13 @@ def login():
 
     return render_template("login.html", form=form, current_user=current_user)
 
-
+# logout route
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('get_all_posts'))
 
-
+# Homepage
 @app.route('/')
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost))
