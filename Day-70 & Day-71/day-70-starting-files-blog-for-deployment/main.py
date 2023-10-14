@@ -14,7 +14,7 @@ import smtplib
 import os
 
 
-
+# Initialize App
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 ckeditor = CKEditor(app)
@@ -91,6 +91,7 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
 
 
+# Create Db and tables
 with app.app_context():
     db.create_all()
 
