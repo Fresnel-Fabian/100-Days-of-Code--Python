@@ -41,7 +41,7 @@ gravatar = Gravatar(app,
                     base_url=None)
 
 # CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog_posts.db'
 db = SQLAlchemy()
 db.init_app(app)
 
@@ -258,10 +258,6 @@ def delete_post(post_id):
 def about():
     return render_template("about.html", current_user=current_user)
 
-
-@app.route("/contact", methods=["GET", "POST"])
-def contact():
-    return render_template("contact.html", current_user=current_user)
 
 # Optional: You can inclue the email sending code from Day 60:
 # DON'T put your email and password here directly! The code will be visible when you upload to Github.
